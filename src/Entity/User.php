@@ -55,12 +55,12 @@ class User implements UserInterface
     private $image;
 
     /**
-     * @ORM\OneToMany(targetEntity=hilo::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Hilo::class, mappedBy="user")
      */
     private $UserHilo;
 
     /**
-     * @ORM\OneToMany(targetEntity=comentarios::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Comentarios::class, mappedBy="user")
      */
     private $UserComentarios;
 

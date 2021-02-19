@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Foro{% endblock %}
+
+{% block body %}
+    <h1>Edit Foro</h1>
+
+    {{ include('foro/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('foro_index') }}">back to list</a>
+
+    {{ include('foro/_delete_form.html.twig') }}
+{% endblock %}

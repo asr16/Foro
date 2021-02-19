@@ -40,12 +40,12 @@ class Hilo
     private $visible;
 
     /**
-     * @ORM\OneToMany(targetEntity=comentarios::class, mappedBy="hilo", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Comentarios::class, mappedBy="Hilo", orphanRemoval=true)
      */
     private $HiloComentario;
 
     /**
-     * @ORM\ManyToOne(targetEntity=foro::class, inversedBy="hilos")
+     * @ORM\ManyToOne(targetEntity=Foro::class, inversedBy="hilos")
      * @ORM\JoinColumn(nullable=false)
      */
     private $HiloForo;

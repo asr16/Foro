@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Foro index{% endblock %}
+
+{% block body %}
+    <h1>Foro index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Type</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for foro in foros %}
+            <tr>
+                <td>{{ foro.id }}</td>
+                <td>{{ foro.Title }}</td>
+                <td>{{ foro.type }}</td>
+                <td>
+                    <a href="{{ path('foro_show', {'id': foro.id}) }}">show</a>
+                    <a href="{{ path('foro_edit', {'id': foro.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('foro_new') }}">Create new</a>
+{% endblock %}
