@@ -14,10 +14,6 @@ class HiloType extends AbstractType
         $builder
             ->add('title')
             ->add('text')
-            ->add('date')
-            ->add('visible')
-            ->add('HiloForo')
-            ->add('user')
         ;
     }
 

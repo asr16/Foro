@@ -40,7 +40,7 @@ class Hilo
     private $visible;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comentarios::class, mappedBy="Hilo", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Comentarios::class, mappedBy="hilo", orphanRemoval=true)
      */
     private $HiloComentario;
 
@@ -165,5 +165,9 @@ class Hilo
         $this->user = $user;
 
         return $this;
+    }
+
+    public function __toString(){
+        return $this->getTitle();
     }
 }

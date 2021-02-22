@@ -13,10 +13,6 @@ class ComentariosType extends AbstractType
     {
         $builder
             ->add('text')
-            ->add('date')
-            ->add('visible')
-            ->add('hilo')
-            ->add('user')
         ;
     }
 

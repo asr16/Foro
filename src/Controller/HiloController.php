@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+use App\Entity\Foro;
 use App\Entity\Hilo;
 use App\Form\HiloType;
 use App\Repository\HiloRepository;
@@ -26,16 +26,23 @@ class HiloController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="hilo_new", methods={"GET","POST"})
+     * @Route("/new/{id}", name="hilo_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Foro $id): Response
     {
         $hilo = new Hilo();
+        $fecha = new \DateTime();
+
         $form = $this->createForm(HiloType::class, $hilo);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $hilo->setUser($this->getUser());
+            $hilo->setDate($fecha);
+            $hilo->setVisible('1');
+            $hilo->setHiloForo($this->getDoctrine()->getRepository(Foro::class)->find($id));
+            $hilo->setHiloForo($id);
             $entityManager->persist($hilo);
             $entityManager->flush();
 

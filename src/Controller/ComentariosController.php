@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+use App\Entity\Hilo;
 use App\Entity\Comentarios;
 use App\Form\ComentariosType;
 use App\Repository\ComentariosRepository;
@@ -26,16 +26,23 @@ class ComentariosController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="comentarios_new", methods={"GET","POST"})
+     * @Route("/new/{id}", name="comentarios_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Hilo $id): Response
     {
         $comentario = new Comentarios();
+        $fecha = new \DateTime();
+
         $form = $this->createForm(ComentariosType::class, $comentario);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $comentario->setUser($this->getUser());
+            $comentario->setDate($fecha);
+            $comentario->setVisible('1');
+            $comentario->setHilo($this->getDoctrine()->getRepository(Hilo::class)->find($id));
+            $comentario->setHilo($id);
             $entityManager->persist($comentario);
             $entityManager->flush();
 

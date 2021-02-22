@@ -27,7 +27,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="user_new", methods={"GET","POST"})
+     * @Route("/new/{id}", name="user_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -91,5 +91,35 @@ class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('user_index');
+    }
+
+    /**
+     *@Route("/banned/{id}", name="user_banned", methods={"GET"})
+     */
+    public function banned(Request $request, User $user): Response
+    {
+
+        $user->setVisible("0");
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('main');
+
+    }
+
+    /**
+     * @Route("/noBanned/{id}", name="user_noBanned", methods={"GET"})
+     */
+    public function noBanned(Request $request, User $user): Response
+    {
+
+        $user->setVisible("1");
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('main');
+
     }
 }

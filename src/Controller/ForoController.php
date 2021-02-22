@@ -91,4 +91,34 @@ class ForoController extends AbstractController
 
         return $this->redirectToRoute('foro_index');
     }
+
+    /**
+     * @Route("/publico/{id}", name="foro_publico", methods={"GET"})
+     */
+    public function publico(Request $request, Foro $foro): Response
+    {
+
+        $foro->setType("public");
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($foro);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('main');
+
+    }
+
+    /**
+     * @Route("/noPublico/{id}", name="foro_noPublico", methods={"GET"})
+     */
+    public function noPubico(Request $request, Foro $foro): Response
+    {
+
+        $foro->setType("private");
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($foro);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('main');
+
+    }
 }

@@ -3,18 +3,109 @@
 {% block title %}Hello MainController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <style>
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        .example-wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/Angel/Desktop/DAW/DEW/Foro/src/Controller/MainController.php'|file_link(0) }}">src/Controller/MainController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/Angel/Desktop/DAW/DEW/Foro/templates/main/index.html.twig'|file_link(0) }}">templates/main/index.html.twig</a></code></li>
-    </ul>
-</div>
+    </style>
+
+{%if is_granted("ROLE_USER")%}
+
+    {#  PARA MOSTRAR TODO SI NO ESTÁ BANEADO, O NADA SI ESTÁ BANEADO#}
+
+
+    {# AL PONER LO SIGUIENTE, NOS SALE TANTO EN LA VISTA DEL ADMIN COMO EN LA DEL USUARIO NORMAL
+    AQUI ABAJO FALTA LO DE if user == userNB, ASI IRIA EN LA VISTA DEL USUARIO NORMAL, PERO LA DE LOS ADMIN TAMBIEN IRIA
+    #}
+    {% if app.user.getVisible == '1' %}
+        {% for foro in foro %}
+            <div style="border: 1px solid black; margin: 10px; background-color: aqua; padding: 10px">
+                <h3>{{foro.title}}</h3>
+                {%for hilos in foro.hilos %}
+                   <div style="border: 1px solid black; margin: 10px; background-color: dodgerblue; padding: 10px;">
+                        <h4>{{hilos.title}}</h4>
+                        <br>
+                        <p>{{hilos.text}}</p>
+                        <br>
+                       {%for HiloComentario in hilos.HiloComentario %}
+                            <div style="border: 1px solid black; margin: 10px; background-color: deepskyblue; padding: 10px;">
+                                <p>{{HiloComentario.text}}</p>
+                            </div>
+                        {% endfor %}
+                        <a href="/comentarios/new/{{hilos.id}}">Crear un comentario</a>
+                    </div>
+                {% endfor %}
+                <a href="/hilo/new/{{foro.id}}">Crear un hilo</a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div style="border: 1px solid black; margin: 10px; background-color: red; padding: 10px;">
+            <h1>You are banned!! go to the thinking corner</h1>
+        </div>
+    {% endif %}
+{% endif %}
+
+    {%if is_granted("ROLE_ADMIN")%}
+
+        {# PARA CREAR FOROS #}
+        <div style="border: 1px solid black; margin: 10px; background-color: fuchsia; padding: 10px">
+            <h2>Foros</h2>
+            <a href="{{ path('foro_new') }}">Crear un nuevo foro</a><br><br>
+        </div>
+
+        {# PARA VER LOS USUARIOS QUE HAY BANEADOS #}
+
+        <br><br>
+        <div style="border: 1px solid black; margin: 10px; background-color: red; padding: 10px;">
+            <h4>Usuarios del sistema baneados</h4>
+            {% for userB in userB %}
+                <h5>{{userB.username}}</h5>
+                <img src="imagenes/{{userB.image}}" width="50"><br>
+                <a href="/user/noBanned/{{userB.id}}/">Desbanea</a><br><br><hr style="border: 1px solid black">
+            {% endfor %}
+        </div>
+
+        {# PARA VER LOS USUARIOS QUE NO HAY BANEADOS Y PARA HACERLOS ADMIN CON UNA FUNCION AYAX #}
+
+        <div style="border: 1px solid black; margin: 10px; background-color: lawngreen; padding: 10px">
+            <h4>Usuarios del sistema no baneados</h4>
+            {% for userNB in userNB %}
+                <h5>{{userNB.username}}</h5>
+                <img src="imagenes/{{userNB.image}}" width="50"><br>
+                <a href="/user/banned/{{userNB.id}}/">Banea</a><br>
+                <div onclick="admins({{userNB.id}})">Hacer Admin</div>
+                <hr style="border: 1px solid black">
+            {% endfor %}
+        </div>
+        {# PARA VER TODOS LOS FOROS PÚBLICOS Y HACERLOS PRIVADOS SI QUIERES #}
+
+        <div style="border: 1px solid black; margin: 10px; background-color: lawngreen; padding: 10px">
+            <h3>Todos los foros públicos</h3>
+            {% for foroPublic in foroPublic%}
+                <h5>{{foroPublic.title}}</h5>
+                <a href="/foro/noPublico/{{foroPublic.id}}/">No Publico</a><br><br>
+                <hr style="border: 1px solid black">
+            {% endfor %}
+        </div>
+
+        {# PARA VER TODOS LOS FOROS PRIVADOS Y HACERLOS PÚBLICOS SI QUIERES #}
+
+        <div style="border: 1px solid black; margin: 10px; background-color: red; padding: 10px">
+            <h3>Todos los foros privados</h3>
+            {% for foroNoPublic in foroNoPublic%}
+                <h5>{{foroNoPublic.title}}</h5>
+                <a href="/foro/publico/{{foroNoPublic.id}}/">Publico</a><br>
+                <hr style="border: 1px solid black">
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endblock %}
