@@ -10,16 +10,16 @@
 <body>
     <!--       Para incluir la vista con el menu-->
     {%if app.user%}
-    <div style="border: 1px solid black; margin: 10px; background-color: lawngreen; padding: 10px">
+    <div style="border: 1px solid black; margin: 10px; background-color: lightcyan; padding: 10px">
     <a href="{{ path('app_logout') }}">Logout</a><br><br>
     {% include 'comunes/_menu.html.twig' %}
     </div>
     {%else%}
-    <div style="border: 1px solid black; margin: 10px; background-color: lawngreen; padding: 10px">
+    <div style="border: 1px solid black; margin: 10px; background-color: lightcyan; padding: 10px">
     <a href="{{ path('app_register') }}">Registrar</a>
     <a href="{{ path('app_login') }}">Login</a>
-    <h1>BIENVENIDO A LA PAGINA DE EMPRESAS</h1>
-    <h3>¡Registrate o logeate para que puedas disfrutar de nuestra web al completo!</h3>
+    <h1 style="text-decoration: underline lightgreen;">BIENVENIDO AL MEJOR FORO DE INTERNET</h1>
+    <h3>¡Registrate o logeate para que puedas disfrutar del contenido del mejor foro!</h3>
     </div>
     {%endif%}
 
